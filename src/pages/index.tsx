@@ -1,12 +1,18 @@
 import Head from "next/head";
-import { GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient, request, gql } from "graphql-request";
 import useSWR from "swr";
 
 import BlogCard from "@/components/BlogCard";
 import Layout from "@/components/Layout";
 
-const graphcms = new GraphQLClient(
-  process.env.NEXT_PUBLIC_GRAPHQL_CLIENT || ""
+export const graphcms = new GraphQLClient(
+  process.env.NEXT_PUBLIC_GRAPHQL_CLIENT ||
+    "https://sa-east-1.cdn.hygraph.com/content/clfy1g0pr69s601uo6i2mboil/master",
+  {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_KEY}`,
+    },
+  }
 );
 
 const QUERY = gql`
@@ -57,10 +63,14 @@ async function fetcher() {
 }
 
 export default function Home({ posts }: any) {
-  const { data: postsSWR } = useSWR("posts", fetcher);
+  const { data: postsSWR, error } = useSWR("posts", fetcher);
 
   if (!postsSWR)
-    return <div className="text-white p-5 text-xl">carregando...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin w-10 h-10 border-cyan-600 border-t-transparent border-4 rounded-full"></div>
+      </div>
+    );
 
   return (
     <>
