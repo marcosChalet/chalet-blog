@@ -1,5 +1,7 @@
 import Head from "next/head";
 import { GraphQLClient, gql } from "graphql-request";
+import useSWR from "swr";
+
 import BlogCard from "@/components/BlogCard";
 import Layout from "@/components/Layout";
 
@@ -28,6 +30,14 @@ const QUERY = gql`
   }
 `;
 
+/*export async function getServerSideProps(context: any) {
+  const { posts }: any = await graphcms.request(QUERY);
+
+  return {
+    props: { posts },
+  };
+}*/
+
 export async function getStaticProps() {
   try {
     const { posts }: any = await graphcms.request(QUERY);
@@ -47,7 +57,41 @@ export async function getStaticProps() {
   };
 }
 
+async function fetcher() {
+  const { posts }: any = await graphcms.request(QUERY);
+  return posts;
+}
+
 export default function Home({ posts }: any) {
+  const { data: postsSWR } = useSWR(
+    `
+  {
+    posts {
+      id
+      title
+      datePublished
+      slug
+      content {
+        html
+      }
+      author {
+        name
+        avatar {
+          url
+        }
+      }
+      coverPhoto {
+        url
+      }
+    }
+  }
+`,
+    fetcher
+  );
+
+  if (!postsSWR)
+    return <div className="text-white p-5 text-xl">carregando...</div>;
+
   return (
     <>
       <Head>
@@ -61,7 +105,7 @@ export default function Home({ posts }: any) {
       </Head>
       <Layout>
         <main className="container max-w-6xl m-auto py-14 flex flex-col sm:flex-row items-center justify-center flex-wrap min-h-screen">
-          {posts
+          {postsSWR
             .map((post: any) => (
               <BlogCard
                 key={post.id}
