@@ -61,16 +61,18 @@ export default function Home({ posts }: any) {
       </Head>
       <Layout>
         <main className="container max-w-6xl m-auto py-14 flex flex-col sm:flex-row items-center justify-center flex-wrap min-h-screen">
-          {posts.map((post: any) => (
-            <BlogCard
-              key={post.id}
-              slug={post.slug}
-              title={post.title}
-              author={post.author}
-              coverPhoto={post.coverPhoto}
-              datePublished={post.datePublished}
-            />
-          ))}
+          {posts
+            .map((post: any) => (
+              <BlogCard
+                key={post.id}
+                slug={post.slug}
+                title={post.title}
+                author={post.author}
+                coverPhoto={post.coverPhoto}
+                datePublished={post.datePublished}
+              />
+            ))
+            .reverse()}
         </main>
       </Layout>
     </>
