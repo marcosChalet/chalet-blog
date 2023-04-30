@@ -6,7 +6,7 @@ import BlogCard from "@/components/BlogCard";
 import Layout from "@/components/Layout";
 
 const options = {
-  max: 500, // número máximo de itens no cache
+  max: 5, // número máximo de itens no cache
   maxAge: 1000 * 60 * 60,
 };
 
