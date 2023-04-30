@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { GraphQLClient, request, gql } from "graphql-request";
+import { GraphQLClient, gql } from "graphql-request";
 import useSWR from "swr";
 
 import BlogCard from "@/components/BlogCard";
@@ -11,6 +11,7 @@ export const graphcms = new GraphQLClient(
   {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_KEY}`,
+      "Cache-Control": "public, max-age=86400",
     },
   }
 );
@@ -54,6 +55,7 @@ export async function getStaticProps() {
 
   return {
     props: {},
+    revalidate: 86400,
   };
 }
 
