@@ -89,21 +89,21 @@ export async function getStaticProps({ params }: any) {
 export default function BlogPost({ post }: any) {
   return (
     <Layout>
-      <main className="text-slate-300 text-lg max-w-5xl m-auto py-3 pb-14">
+      <main className="text-slate-300 sm:text-lg px-3 md:px-5 md:max-w-5xl container m-auto py-3 pb-14">
         <Image
-          loading="lazy"
           width={1200}
           height={600}
           quality={100}
           priority
           src={post.coverPhoto.url}
           alt=""
-          className="w-full h-[25rem] object-cover"
+          className="w-full sm:h-[25rem] object-contain sm:object-cover"
         />
-        <h2 className="text-4xl pt-5 text-slate-300">{post.title}</h2>
+        <h2 className="text-2xl font-bold sm:text-4xl pt-5 text-slate-300">
+          {post.title}
+        </h2>
         <div className="flex justify-start items-center mt-3 mb-14">
           <Image
-            loading="lazy"
             width={300}
             height={300}
             quality={100}
