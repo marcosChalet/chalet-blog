@@ -72,15 +72,6 @@ export async function getStaticProps() {
 }
 
 export default function Home({ posts }: any) {
-  {
-    /*if (!posts)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin w-10 h-10 border-cyan-600 border-t-transparent border-4 rounded-full"></div>
-      </div>
-    );*/
-  }
-
   return (
     <>
       <Head>
