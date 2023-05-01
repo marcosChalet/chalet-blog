@@ -11,15 +11,11 @@ const options = {
 
 const cache = new LRUCache(options);
 
-const graphcms = new GraphQLClient(
-  process.env.NEXT_PUBLIC_GRAPHQL_CLIENT ||
-    "https://sa-east-1.cdn.hygraph.com/content/clfy1g0pr69s601uo6i2mboil/master",
-  {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_KEY}`,
-    },
-  }
-);
+const graphcms = new GraphQLClient(process.env.GRAPHQL_CLIENT || "", {
+  headers: {
+    Authorization: `Bearer ${process.env.GRAPHQL_KEY}`,
+  },
+});
 
 const QUERY = gql`
   query Post($slug: String!) {
