@@ -71,7 +71,9 @@ export default function Home({ posts }: any) {
   return (
     <>
       <Head>
-        <title>Chalet Blog</title>
+        <title>
+          Chalet Blog - Minha progressão de carreira como desenvolvedor
+        </title>
         <meta
           name="description"
           content="Blog para compartilhar meus estudos e progressão dentro do desenvolvimento de software."
