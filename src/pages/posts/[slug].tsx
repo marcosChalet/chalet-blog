@@ -1,6 +1,15 @@
-import Layout from "@/components/Layout";
 import { GraphQLClient, gql } from "graphql-request";
+import { LRUCache } from "lru-cache";
 import Image from "next/image";
+
+import Layout from "@/components/Layout";
+
+const options = {
+  max: 5, // número máximo de itens no cache
+  maxAge: 1000 * 60 * 60 * 24 * 15,
+};
+
+const cache = new LRUCache(options);
 
 const graphcms = new GraphQLClient(
   process.env.NEXT_PUBLIC_GRAPHQL_CLIENT ||
@@ -56,8 +65,15 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: any) {
   try {
     const slug = params.slug;
+
+    if (cache.has(slug)) {
+      console.log("resposta do cache...");
+      return cache.get(slug);
+    }
     const data: any = await graphcms.request(QUERY, { slug });
     const post: any = data.post;
+
+    cache.set(slug, post);
 
     return {
       props: {
