@@ -3,6 +3,7 @@ import { LRUCache } from "lru-cache";
 import Image from "next/image";
 
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 const options = {
   max: 5, // número máximo de itens no cache
@@ -88,39 +89,50 @@ export async function getStaticProps({ params }: any) {
 
 export default function BlogPost({ post }: any) {
   return (
-    <Layout>
-      <main className="text-slate-300 sm:text-lg px-3 md:px-5 md:max-w-5xl container m-auto py-3 pb-14">
-        <Image
-          width={1200}
-          height={600}
-          quality={100}
-          priority
-          src={post.coverPhoto.url}
-          alt=""
-          className="w-full sm:h-[25rem] object-contain sm:object-cover"
+    <>
+      <Head>
+        <title>{post.title} • Chalet Blog</title>
+        <meta
+          name="description"
+          content={`${post.title} by ${post.author.name}`}
         />
-        <h2 className="text-2xl font-bold sm:text-4xl pt-5 text-slate-300">
-          {post.title}
-        </h2>
-        <div className="flex justify-start items-center mt-3 mb-14">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Layout>
+        <main className="text-slate-300 sm:text-lg px-3 md:px-5 md:max-w-5xl container m-auto py-3 pb-14">
           <Image
-            width={300}
-            height={300}
+            width={1200}
+            height={600}
             quality={100}
             priority
-            src={post.author.avatar.url}
+            src={post.coverPhoto.url}
             alt=""
-            className="w-7 h-7 rounded-full border-2 border-sky-500 mr-2"
+            className="w-full sm:h-[25rem] object-contain sm:object-cover"
           />
-          <div className="flex justify-start items-center italic text-base">
-            <h6 className="mr-2">
-              By <b>{post.author.name}</b>
-            </h6>
-            <h6>{post.datePublished}</h6>
+          <h2 className="text-2xl font-bold sm:text-4xl pt-5 text-slate-300">
+            {post.title}
+          </h2>
+          <div className="flex justify-start items-center mt-3 mb-14">
+            <Image
+              width={300}
+              height={300}
+              quality={100}
+              priority
+              src={post.author.avatar.url}
+              alt=""
+              className="w-7 h-7 rounded-full border-2 border-sky-500 mr-2"
+            />
+            <div className="flex justify-start items-center italic text-base">
+              <h6 className="mr-2">
+                By <b>{post.author.name}</b>
+              </h6>
+              <h6>{post.datePublished}</h6>
+            </div>
           </div>
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: post.content.html }}></div>
-      </main>
-    </Layout>
+          <div dangerouslySetInnerHTML={{ __html: post.content.html }}></div>
+        </main>
+      </Layout>
+    </>
   );
 }
