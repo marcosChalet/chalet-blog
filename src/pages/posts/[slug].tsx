@@ -97,7 +97,7 @@ export default function BlogPost({ post }: any) {
           content={`${post.title} by ${post.author.name}`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicn.ico" />
       </Head>
       <Layout>
         <main className="text-slate-300 sm:text-lg px-3 md:px-5 md:max-w-5xl container m-auto py-3 pb-14">
