@@ -91,6 +91,7 @@ export default function BlogPost({ post }: any) {
     <Layout>
       <main className="text-slate-300 text-lg max-w-5xl m-auto py-3 pb-14">
         <Image
+          loading="lazy"
           width={1200}
           height={600}
           quality={100}
@@ -102,6 +103,7 @@ export default function BlogPost({ post }: any) {
         <h2 className="text-4xl pt-5 text-slate-300">{post.title}</h2>
         <div className="flex justify-start items-center mt-3 mb-14">
           <Image
+            loading="lazy"
             width={300}
             height={300}
             quality={100}

@@ -13,6 +13,7 @@ export default function BlogCard({
       <Link href={"/posts/" + slug}>
         <div className="h-42">
           <Image
+            loading="lazy"
             width={500}
             height={300}
             className="w-full h-full bg-cover"
@@ -26,6 +27,7 @@ export default function BlogCard({
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Image
+              loading="lazy"
               width={100}
               height={100}
               className="rounded-full w-8 h-8 mr-2"
