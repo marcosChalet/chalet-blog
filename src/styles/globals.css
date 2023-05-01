@@ -23,5 +23,6 @@ pre {
   padding: .5rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
-  background-color: #0004
+  background-color: #0004;
+  overflow-x: auto;
 }
