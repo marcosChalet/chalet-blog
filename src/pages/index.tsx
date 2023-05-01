@@ -1,9 +1,26 @@
 import Head from "next/head";
 import { GraphQLClient, gql } from "graphql-request";
+import { LRUCache } from "lru-cache";
+
 import BlogCard from "@/components/BlogCard";
 import Layout from "@/components/Layout";
 
-const graphcms = new GraphQLClient(process.env.GRAPHQL_CLIENT || "");
+const options = {
+  max: 5, // número máximo de itens no cache
+  maxAge: 1000 * 60 * 60 * 24 * 15,
+};
+
+const cache = new LRUCache(options);
+
+export const graphcms = new GraphQLClient(
+  process.env.NEXT_PUBLIC_GRAPHQL_CLIENT ||
+    "https://sa-east-1.cdn.hygraph.com/content/clfy1g0pr69s601uo6i2mboil/master",
+  {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_GRAPHQL_KEY}`,
+    },
+  }
+);
 
 const QUERY = gql`
   {
@@ -30,13 +47,19 @@ const QUERY = gql`
 
 export async function getStaticProps() {
   try {
+    if (cache.has("posts")) {
+      console.log("resposta do cache...");
+      return cache.get("posts");
+    }
+
     const { posts }: any = await graphcms.request(QUERY);
+
+    cache.set("posts", posts);
 
     return {
       props: {
         posts,
       },
-      revalidate: 60,
     };
   } catch (error) {
     console.log(error);
@@ -44,6 +67,7 @@ export async function getStaticProps() {
 
   return {
     props: {},
+    revalidate: 86400,
   };
 }
 
