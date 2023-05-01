@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 
 const options = {
   max: 5, // número máximo de itens no cache
-  maxAge: 1000 * 60 * 60,
+  maxAge: 1000 * 60 * 60 * 24 * 15,
 };
 
 const cache = new LRUCache(options);
